@@ -1,24 +1,35 @@
-package com.cocasensi;
+package com.seuapp.cocasensi;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
-    WebView web;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        web = new WebView(this);
-        setContentView(web);
+        webView = findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient()); // Mantém dentro do app
 
-        web.getSettings().setJavaScriptEnabled(true);
-        web.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true); // Habilita JS se o site precisar
 
-        web.loadUrl("https://coca-sensi.lovable.app/");
+        webView.loadUrl("https://coca-sensi.lovable.app/");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
